@@ -12,6 +12,13 @@ class Post extends Model
     use Sluggable;
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -33,5 +40,15 @@ class Post extends Model
     public function site()
     {
         return $this->belongsTo(Site::class);
+    }
+
+    /**
+     * Get the user that owns the post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

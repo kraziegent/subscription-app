@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -30,12 +31,14 @@ class PostContoller extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PostStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        //
+        $post = $request->execute();
+
+        return $this->response($post, "Post saved successfully and subscribers notified.");
     }
 
     /**
@@ -46,7 +49,7 @@ class PostContoller extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return $this->response($post, "Request Successful.");
     }
 
     /**

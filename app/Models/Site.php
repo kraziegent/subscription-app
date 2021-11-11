@@ -10,6 +10,13 @@ class Site extends Model
     use HasFactory;
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Get all the posts that were made on this site.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

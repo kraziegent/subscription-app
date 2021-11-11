@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SiteSubscribtionRequest;
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -30,12 +32,14 @@ class UserContoller extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UserStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        //
+        $user = $request->execute();
+
+        return $this->response($user, "User created successfully");
     }
 
     /**
@@ -81,5 +85,18 @@ class UserContoller extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    /**
+     * Subscribe user to a site
+     *
+     * @param  SiteSubscribtionRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function subscribe(SiteSubscribtionRequest $request)
+    {
+        $site = $request->execute();
+
+        return $this->response($site, "User subscribed to site successfully");
     }
 }

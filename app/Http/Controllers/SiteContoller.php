@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SiteStoreRequest;
 use App\Models\Site;
 use Illuminate\Http\Request;
 
@@ -30,12 +31,14 @@ class SiteContoller extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  SiteStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SiteStoreRequest $request)
     {
-        //
+        $site = $request->execute();
+
+        return $this->response($site, "Site created successfully");
     }
 
     /**

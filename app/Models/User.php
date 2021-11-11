@@ -51,4 +51,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Site::class, 'subscriptions');
     }
+
+    /**
+     * Encrypt user password before saving
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }
