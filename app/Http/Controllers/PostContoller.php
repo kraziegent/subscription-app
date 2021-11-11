@@ -36,9 +36,13 @@ class PostContoller extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-        $post = $request->execute();
+        try {
+            $post = $request->execute();
 
-        return $this->response($post, "Post saved successfully and subscribers notified.");
+            return $this->response($post, "Post saved successfully and subscribers notified.");
+        } catch (\Exception $e) {
+            return $this->response(null, "Error saving post. {$e->getMessage()}", 500);
+        }
     }
 
     /**

@@ -36,9 +36,13 @@ class SiteContoller extends Controller
      */
     public function store(SiteStoreRequest $request)
     {
-        $site = $request->execute();
+        try {
+            $site = $request->execute();
 
-        return $this->response($site, "Site created successfully");
+            return $this->response($site, "Site created successfully");
+        } catch (\Exception $e) {
+            return $this->response(null, "Error creating site {$e->getMessage()}", 500);
+        }
     }
 
     /**

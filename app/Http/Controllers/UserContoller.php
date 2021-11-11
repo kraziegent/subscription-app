@@ -37,9 +37,13 @@ class UserContoller extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-        $user = $request->execute();
+        try {
+            $user = $request->execute();
 
-        return $this->response($user, "User created successfully");
+            return $this->response($user, "User created successfully");
+        } catch (\Exception $e) {
+            return $this->response(null, "Error saving user {$e->getMessage()}", false);
+        }
     }
 
     /**
@@ -95,8 +99,12 @@ class UserContoller extends Controller
      */
     public function subscribe(SiteSubscribtionRequest $request)
     {
-        $site = $request->execute();
+        try {
+            $site = $request->execute();
 
-        return $this->response($site, "User subscribed to site successfully");
+            return $this->response($site, "User subscribed to site successfully");
+        } catch (\Exception $e) {
+            return $this->response(null, "Error susbcribing to site. {$e->getMessage()}", 500);
+        }
     }
 }
