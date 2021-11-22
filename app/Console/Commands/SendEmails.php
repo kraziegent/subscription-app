@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\NewPostAlert;
+use App\Jobs\SendEmails as SendEmailsJob;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class SendEmails extends Command
 {
@@ -15,7 +14,7 @@ class SendEmails extends Command
      *
      * @var string
      */
-    protected $signature = 'email:new-post-alert {post} {subscribers*}';
+    protected $signature = 'email:new-post-alert {post}';
 
     /**
      * The console command description.
@@ -41,12 +40,14 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        $subscribers = User::whereIn('id', $this->argument('subscribers'))->get();
-
         $post = Post::findOrFail($this->argument('post'));
+        $key = "alert-for-post-{$post->id}";
 
-        foreach($subscribers as $subscriber) {
-            Mail::to($subscriber)->send(new NewPostAlert($post));
+        if (Cache::has($key)) {
+            return;
         }
+
+        SendEmailsJob::dispatch($post);
+        Cache::put($key, true, now()->addMinutes(60));
     }
 }

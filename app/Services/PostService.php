@@ -30,10 +30,7 @@ class PostService
      */
     public function notifySubscribers(Post $post)
     {
-        $subscribers = $post->site->subscribers;
-
         Artisan::queue('email:new-post-alert', [
-            'subscribers' => $subscribers->pluck('id')->toArray(),
             'post' => $post->id
         ]);
     }
